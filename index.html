@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIKUSHA</title>
+    
+
+    <style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body, html {
+    height: 100%;
+    width: 100%;
+    background-color: #000000;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Pacifico', cursive;
+}
+
+/* Добавляем стиль для текста "DARINA" */
+.center-text {
+    position: absolute;
+    top: 25%; /* Сделано еще выше */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4.5rem; /* Размер шрифта */
+    color: white;
+    text-align: center;
+    letter-spacing: 5px;
+    font-family: 'Courier New', monospace; /* Используем моноширинный шрифт для стиля */
+    text-transform: uppercase;
+}
+
+/* Стиль для текста песни с изменением цвета на светло-синий */
+.song-text {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.5rem;
+    color: rgb(243, 243, 243) !important; /* Убедимся, что цвет точно будет светло-синий */
+    text-align: center;
+    max-width: 80%;
+    opacity: 0;
+    display: none;
+    animation: fadeIn 1.5s forwards; /* Ускорена анимация */
+    font-family: 'Courier New', monospace; /* Стиль для текста песни */
+    letter-spacing: 2px; /* Немного увеличим расстояние между буквами */
+}
+
+/* Дополнительные стили для анимации появления текста */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+.highlighted {
+    color: yellow;
+    font-weight: bold;
+    text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.7);
+}
+
+/* Стили для сердечек */
+.hearts-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.heart {
+position: absolute;
+background-color: red;
+transform: rotate(-45deg);
+opacity: 1;
+animation: fall 3s linear infinite;
+width: 65px;  /* Увеличиваем размер на 50% */
+height: 65px; /* Увеличиваем размер на 50% */
+}
+
+
+
+.heart::before,
+.heart::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.heart::before {
+    left: 0;
+    top: -50%;
+}
+
+.heart::after {
+    left: 50%;
+    top: 0;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-150%);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+.heart-button {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: red;
+    border: none;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    color: rgb(255, 255, 255);
+    font-size: 2rem;
+    text-align: center;
+    line-height: 100px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Стили для кнопки "СЛАДКАЯ" с рамкой и светящимся эффектом */
+.button-saldkaya {
+    position: absolute;
+    bottom: 10px; /* Внизу страницы */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    color: white;
+    background-color: transparent;
+    padding: 15px 30px;
+    border: 2px solid lightblue;
+    border-radius: 5px;
+    text-decoration: none;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: none; /* Скрываем кнопку по умолчанию */
+}
+
+.button-saldkaya:hover {
+    background-color: lightblue;
+    color: black;
+    box-shadow: 0 0 10px 5px lightblue;
+    transform: translateX(-50%) scale(1.05);
+}
+
+.highlight {
+color: rgb(0, 183, 255); /* Замените на любой желаемый цвет */
+}
+    </style>
+  
+</head>
+<body>
+
+    <div class="hearts-container"></div>
+
+    <!-- Добавлен стиль для текста "DARINA" -->
+    <div class="center-text">
+        <span>n</span>
+        <span>i</span>
+        <span>k</span>
+        <span>u</span>
+        <span>s</span>
+        <span>h</span>
+        <span>a</span>
+    </div>
+
+    <button id="playButton" class="heart-button">❤️</button>
+
+    <audio id="music" preload="auto">
+        <source src="muzik/Валентин Стрыкало - Знаешь, Таня.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает элемент audio.
+    </audio>
+
+    <div class="song-text" id="songText1">Если <span class="highlight">НИКА</span> думает, что я по ней грущу - она права.</div>
+<div class="song-text" id="songText2">Если <span class="highlight">НИКА</span> думает, что я все упущу - она права.</div>
+<div class="song-text" id="songText3">Где же взять мне смелость чтоб, чтоб сказать ей пару слов:</div>
+<div class="song-text" id="songText4">Знаешь, <span class="highlight">НИКА</span>, не передать словами то, как я люблю тебя.</div>
+<div class="song-text" id="songText5">Между нами такая пропасть, <span class="highlight">НИКА</span>, но я так люблю тебя.</div>
+<div class="song-text" id="songText6">Не сплю я, потому что мне никак не удается не грустить.</div>
+<div class="song-text" id="songText7">Я ночью мну подушку, а <span class="highlight">НИКУ</span> мнет другой какой-то тип.</div>
+<div class="song-text" id="songText8"><span class="highlight">НИКА</span>, <span class="highlight">НИКА</span>... Объясни, как набраться смелости?</div>
+<div class="song-text" id="songText9">Знаешь, <span class="highlight">НИКА</span>, не передать словами то, как я люблю тебя.</div>
+<div class="song-text" id="songText10">Между нами такая пропасть, <span class="highlight">НИКА</span>, но я так люблю тебя.</div>
+<div class="song-text" id="songText11">Я так люблю тебя...</div>
+
+<div class="song-text" id="songText12">Две семёрки, девяносто, сто -</div>
+<div class="song-text" id="songText13">Твой мобильный, он такой простой.</div>
+<div class="song-text" id="songText14">Просто звоню и дышу, но я когда-то скажу -</div>
+<div class="song-text" id="songText15">Главные эти слова:</div>
+<div class="song-text" id="songText16">Знаешь, <span class="highlight">НИКА</span>, не передать словами то, как я люблю тебя.</div>
+<div class="song-text" id="songText17">Между нами такая пропасть, <span class="highlight">НИКА</span>, но я так люблю тебя.</div>
+<div class="song-text" id="songText18">Я так люблю тебя...</div>
+
+
+    <!-- Кнопка с рамкой и светящимся эффектом -->
+    <a href="NIKUSHA.html" class="button-saldkaya" target="_blank">ГАВ-ГАВ НАЖИМАЙ</a>
+
+    <script>
+
+let heartClickCount = 0; // Счётчик нажатий на сердечко
+let currentAudio = null; // Переменная для отслеживания текущего воспроизведения музыки
+
+// Функция для создания сердца
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.style.width = Math.random() * 30 + 'px';
+    heart.style.height = heart.style.width;
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    heart.style.animationDuration = Math.random() * 2 + 2 + 's';
+    document.querySelector('.hearts-container').appendChild(heart);
+    setTimeout(() => {
+        heart.remove();
+    }, 3000);
+}
+
+setInterval(createHeart, 50);
+
+// Обработчик для кнопки "playButton"
+document.getElementById('playButton').addEventListener('click', function() {
+    heartClickCount++; // Увеличиваем счётчик кликов
+
+    // Если музыка уже воспроизводится, останавливаем её
+    if (currentAudio && !currentAudio.paused) {
+        currentAudio.pause(); // Останавливаем текущую музыку
+        currentAudio.currentTime = 0; // Возвращаемся в начало песни
+    }
+
+    // Воспроизведение музыки
+    const audio = document.getElementById('music');
+    const postText = document.getElementById('postText');
+    const songTexts = [
+        document.getElementById('songText1'),
+        document.getElementById('songText2'),
+        document.getElementById('songText3'),
+        document.getElementById('songText4'),
+        document.getElementById('songText5'),
+        document.getElementById('songText6'),
+        document.getElementById('songText7'),
+        document.getElementById('songText8'),
+        document.getElementById('songText9'),
+        document.getElementById('songText10'),
+        document.getElementById('songText11'),
+        document.getElementById('songText12'),
+        document.getElementById('songText13'),
+        document.getElementById('songText14'),
+        document.getElementById('songText15'),
+        document.getElementById('songText16'),
+        document.getElementById('songText17'),
+        document.getElementById('songText18')
+    ];
+
+    // Присваиваем текущий аудиофайл в переменную
+    currentAudio = audio;
+    audio.play().catch((e) => {
+        console.log("Ошибка воспроизведения: ", e);
+    });
+
+    let songTextIndex = 0;
+
+    // Функция для показа текста песни
+    function showSongText() {
+        const currentTime = audio.currentTime;
+        const timings = [
+            19, 32, 48, 58, 77, 107, 121, 137, 148, 166, 188, 197, 206, 211, 216, 226, 243, 252
+        ];
+
+        if (songTextIndex < songTexts.length) {
+            const text = songTexts[songTextIndex];
+
+            if (currentTime >= timings[songTextIndex]) {
+                // Сначала скрываем предыдущий текст
+                if (songTextIndex > 0) {
+                    const previousText = songTexts[songTextIndex - 1];
+                    previousText.style.animation = 'fadeOut 1s forwards';
+                }
+
+                text.style.display = 'block';
+                text.classList.add('highlighted');
+                text.style.animation = 'fadeIn 1.5s forwards'; // Ускорена анимация
+                songTextIndex++;
+            }
+        }
+    }
+
+    const songTextInterval = setInterval(showSongText, 100);
+
+    setTimeout(() => {
+        postText.style.display = 'block';
+    }, 90000);
+
+    // Показ кнопки через 90 секунд
+    setTimeout(() => {
+        document.querySelector('.button-saldkaya').style.display = 'block';
+    }, 90000); // 90 секунд = 90000 миллисекунд
+});
+
+    </script>
+
+</body>
+</html>
